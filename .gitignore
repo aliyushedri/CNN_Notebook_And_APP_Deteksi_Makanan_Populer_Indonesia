@@ -1,0 +1,10 @@
+# Dataset diunduh ulang melalui Kaggle dan terlalu besar untuk GitHub.
+/dataset/
+
+# Simpan hanya model siap pakai untuk aplikasi; checkpoint perantara diabaikan.
+/models/*.keras
+!/models/cnn_food_indonesian_final.keras
+
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/

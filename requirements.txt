@@ -1,0 +1,10 @@
+# ============================================================
+# Dependensi Proyek: Klasifikasi Makanan Indonesia dengan CNN
+# Instal dengan: pip install -r requirements.txt
+# ============================================================
+tensorflow>=2.16        # framework deep learning (training + inferensi)
+kaggle>=1.6             # Kaggle API resmi untuk mengunduh dataset
+numpy                   # komputasi numerik
+matplotlib              # visualisasi grafik training & evaluasi
+scikit-learn            # classification report & confusion matrix
+pillow                  # pemrosesan gambar (notebook & aplikasi UI)

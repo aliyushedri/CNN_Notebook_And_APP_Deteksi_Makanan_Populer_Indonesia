@@ -1,0 +1,27 @@
+{
+  "nama_model": "EfficientNetB0_Makanan_Indonesia",
+  "dataset_kaggle": "rizkyyk/dataset-food-classification",
+  "ukuran_input": [
+    224,
+    224
+  ],
+  "jumlah_kelas": 13,
+  "nama_kelas": [
+    "Ayam Goreng",
+    "Burger",
+    "French Fries",
+    "Gado-Gado",
+    "Ikan Goreng",
+    "Mie Goreng",
+    "Nasi Goreng",
+    "Nasi Padang",
+    "Pizza",
+    "Rawon",
+    "Rendang",
+    "Sate",
+    "Soto"
+  ],
+  "akurasi_test": 0.94,
+  "loss_test": 0.1735,
+  "tanggal_training": "2026-06-22 14:17:52"
+}
