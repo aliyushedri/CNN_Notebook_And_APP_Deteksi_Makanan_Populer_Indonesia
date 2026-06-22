@@ -1,29 +1,32 @@
-# 🍛 Klasifikasi Makanan Indonesia dengan CNN
+# Klasifikasi Makanan Indonesia dengan EfficientNetB0
 
-Proyek deep learning untuk mengklasifikasikan gambar makanan khas Indonesia menggunakan
-**Convolutional Neural Network (CNN)**, dilengkapi aplikasi GUI untuk deteksi gambar.
+Proyek deep learning untuk mengklasifikasikan 13 kelas makanan menggunakan
+**Convolutional Neural Network (CNN) berbasis EfficientNetB0**. Model dilatih dengan
+transfer learning dan fine-tuning, lalu digunakan oleh aplikasi desktop Tkinter untuk
+melakukan prediksi gambar makanan.
 
-**Dataset:** [Indonesian Food Dataset — Kaggle](https://www.kaggle.com/datasets/rizkyyk/dataset-food-classification)
+**Dataset:** [Indonesian Food Dataset - Kaggle](https://www.kaggle.com/datasets/rizkyyk/dataset-food-classification)
 
-## 📁 Struktur Proyek
+## Struktur Proyek
 
 ```text
 CNN_FOOD_INDONESIAN/
-├── training_cnn_food_indonesian.ipynb   # Notebook training CNN (download dataset via Kaggle API)
-├── app/
-│   └── food_detector_app.py             # Aplikasi GUI deteksi makanan (Tkinter)
-├── dataset/                             # Dataset dari Kaggle (dibuat otomatis oleh notebook)
-├── models/                              # Model terlatih + metadata (dibuat otomatis)
-│   ├── cnn_food_indonesian_best.keras   #   - checkpoint bobot terbaik
-│   ├── cnn_food_indonesian_final.keras  #   - model final
-│   ├── class_names.json                 #   - daftar nama kelas
-│   └── model_metadata.json              #   - info model (akurasi, tanggal, dll.)
-├── outputs/                             # Grafik hasil training & evaluasi (dibuat otomatis)
-├── requirements.txt                     # Daftar dependensi Python
-└── README.md
+|-- training_cnn_food_indonesian.ipynb   # Notebook training dan evaluasi model
+|-- app/
+|   `-- food_detector_app.py             # Aplikasi desktop deteksi makanan
+|-- models/
+|   |-- cnn_food_indonesian_final.keras  # Model final siap pakai
+|   |-- class_names.json                 # Urutan nama kelas
+|   `-- model_metadata.json              # Metadata model dan metrik test
+|-- outputs/                             # Kurva training dan confusion matrix
+|-- requirements.txt                     # Dependensi proyek
+`-- README.md
 ```
 
-## 🚀 Cara Menjalankan
+Folder `dataset/` tidak disimpan di GitHub karena berukuran besar. Notebook akan
+mengunduhnya kembali melalui Kaggle API bila dataset belum tersedia.
+
+## Menjalankan Proyek
 
 ### 1. Instal dependensi
 
@@ -33,44 +36,45 @@ pip install -r requirements.txt
 
 ### 2. Siapkan kredensial Kaggle
 
-1. Login ke [kaggle.com](https://www.kaggle.com) → foto profil → **Settings** → bagian **API** → **Create New Token**.
-2. Letakkan file `kaggle.json` yang terunduh di:
-   - **Windows:** `C:\Users\<nama_user>\.kaggle\kaggle.json`
-   - **Linux/Mac:** `~/.kaggle/kaggle.json`
+1. Login ke Kaggle, lalu buka **Settings** > **API** > **Create New Token**.
+2. Letakkan `kaggle.json` pada lokasi berikut:
 
-### 3. Jalankan notebook training
+   - Windows: `C:\Users\<nama_user>\.kaggle\kaggle.json`
+   - Linux/macOS: `~/.kaggle/kaggle.json`
 
-Buka `training_cnn_food_indonesian.ipynb` (Jupyter / VS Code) dan jalankan sel dari atas
-ke bawah. Notebook akan otomatis:
+### 3. Training dan evaluasi model
 
-- Membuat struktur folder (`dataset/`, `models/`, `outputs/`).
-- Mengunduh dataset dari Kaggle melalui Kaggle API.
-- Melatih CNN dan menyimpan model + metadata ke `models/`.
+Buka `training_cnn_food_indonesian.ipynb` di Jupyter atau VS Code, lalu jalankan sel
+secara berurutan. Notebook akan membuat struktur folder, mengunduh dataset, melatih
+model, membuat grafik evaluasi, dan menyimpan model final beserta metadatanya.
 
-### 4. Jalankan aplikasi UI deteksi
+### 4. Jalankan aplikasi deteksi
 
 ```bash
 python app/food_detector_app.py
 ```
 
-**Fitur aplikasi:**
+## Fitur Aplikasi
 
 | Fitur | Keterangan |
 |---|---|
-| 🔄 Select Model | Pilih model dari folder `models/` atau browse file `.keras`/`.h5` |
-| ⚙️ Load Model | Muat model di background (UI tetap responsif) |
-| ℹ️ Info Model | Lihat akurasi test, jumlah kelas, tanggal training |
-| 🖼️ Buka Gambar | Pilih gambar makanan + preview |
-| 🔍 Detect | Prediksi kelas + bar chart Top-K probabilitas |
-| 📜 Riwayat | Tabel riwayat semua hasil deteksi |
-| 💾 Ekspor CSV | Simpan riwayat deteksi ke file CSV |
+| Pilih model | Memilih model dari folder `models/` atau lokasi lain. |
+| Muat model | Memuat model pada thread terpisah agar antarmuka tetap responsif. |
+| Info model | Menampilkan jumlah kelas, ukuran input, parameter, dan metadata evaluasi. |
+| Pilih gambar | Menampilkan pratinjau gambar yang akan diklasifikasikan. |
+| Deteksi gambar | Menampilkan prediksi Top-K dengan confidence dua desimal. |
+| Riwayat deteksi | Menyimpan hasil prediksi selama aplikasi berjalan. |
+| Ekspor CSV | Mengekspor riwayat deteksi ke berkas CSV. |
 
-## 🧠 Arsitektur Model
+## Arsitektur dan Training
 
-CNN *from scratch* dengan komposisi: augmentasi data (flip, rotasi, zoom, kontras) →
-rescaling 1/255 → 4 blok konvolusi (32→64→128→256 filter, masing-masing
-Conv2D + BatchNorm + ReLU + MaxPool + Dropout) → GlobalAveragePooling →
-Dense 256 → Softmax.
+Model memakai **EfficientNetB0**, yaitu arsitektur CNN yang telah dipretrain pada
+ImageNet. Konfigurasi training terdiri dari:
 
-Training memakai optimizer **Adam**, loss **sparse categorical crossentropy**, serta
-callback **ModelCheckpoint**, **EarlyStopping**, dan **ReduceLROnPlateau**.
+1. Augmentasi data: horizontal flip, rotasi, zoom, dan perubahan kontras.
+2. Transfer learning: backbone EfficientNetB0 dibekukan untuk melatih classifier head.
+3. Fine-tuning: 30 layer terakhir backbone dilatih ulang dengan learning rate kecil.
+4. Evaluasi: accuracy, loss, classification report, dan confusion matrix pada data test.
+
+Metrik model final yang tersimpan saat ini adalah **94.00% test accuracy** dan
+**94.00% macro F1-score** pada 650 citra data test.
