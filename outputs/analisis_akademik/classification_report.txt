@@ -1,0 +1,19 @@
+              precision    recall  f1-score   support
+
+ Ayam Goreng     0.8246    0.9400    0.8785        50
+      Burger     1.0000    1.0000    1.0000        50
+French Fries     1.0000    1.0000    1.0000        50
+   Gado-Gado     0.9038    0.9400    0.9216        50
+ Ikan Goreng     0.9792    0.9400    0.9592        50
+  Mie Goreng     0.9216    0.9400    0.9307        50
+ Nasi Goreng     0.9556    0.8600    0.9053        50
+ Nasi Padang     0.9767    0.8400    0.9032        50
+       Pizza     0.9804    1.0000    0.9901        50
+       Rawon     1.0000    0.9600    0.9796        50
+     Rendang     0.9388    0.9200    0.9293        50
+        Sate     0.9216    0.9400    0.9307        50
+        Soto     0.9091    1.0000    0.9524        50
+
+    accuracy                         0.9446       650
+   macro avg     0.9470    0.9446    0.9447       650
+weighted avg     0.9470    0.9446    0.9447       650
