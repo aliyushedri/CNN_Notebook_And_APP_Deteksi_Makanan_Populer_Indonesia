@@ -21,7 +21,7 @@
     "Sate",
     "Soto"
   ],
-  "akurasi_test": 0.94,
-  "loss_test": 0.1735,
-  "tanggal_training": "2026-06-22 14:17:52"
+  "akurasi_test": 0.9446,
+  "loss_test": 0.1668,
+  "tanggal_training": "2026-06-24 10:56:55"
 }

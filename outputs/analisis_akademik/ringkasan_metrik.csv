@@ -1,0 +1,7 @@
+﻿Metrik,Nilai
+Akurasi evaluasi ulang,0.9446153846153846
+F1-score macro,0.9446536003913338
+ROC-AUC macro OvR,0.9984435897435897
+Jumlah data test,650.0
+Akurasi metadata,0.9446
+Loss metadata,0.1668
